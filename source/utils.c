@@ -5,6 +5,9 @@
 #include <switch.h>
 #include "utils.h"
 
+void *heap_addr;
+extern char *fake_heap_end;
+
 char* keyboard(char* message, size_t size){
 	SwkbdConfig	skp; 
 	Result keyrc = swkbdCreate(&skp, 0);
@@ -27,8 +30,11 @@ char* keyboard(char* message, size_t size){
 }
 
 void userAppInit(void){
-	void *addr = NULL;
-	if (svcSetHeapSize(&addr, 0x4000000) == (Result)-1) fatalSimple(0);
+    if(R_SUCCEEDED(svcSetHeapSize(&heap_addr, 0x4000000))) fake_heap_end = (char*)heap_addr + 0x4000000;
+}
+
+void userAppExit(void){
+    svcSetHeapSize(&heap_addr, ((u8*)envGetHeapOverrideAddr() + envGetHeapOverrideSize()) - (u8*)heap_addr);
 }
 
 void printarraynew(char *array[], int on[], int arraylength, int highlight, int offset, int starty){

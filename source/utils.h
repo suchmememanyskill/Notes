@@ -13,5 +13,4 @@
 #define MAX_LINES 38
 
 char* keyboard(char* message, size_t size);
-void userAppInit(void);
 void printarraynew(char *array[], int on[], int arraylength, int highlight, int offset, int starty);

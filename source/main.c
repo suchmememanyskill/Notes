@@ -9,7 +9,7 @@
 int  notes_active[200];
 char *notes[200];
 int amount = 0;
-bool nonotes = false, keyboardinit = false;
+bool nonotes = false;
 
 void additem(const char *item, int spot){
     size_t size = strlen(item) + 1;
@@ -90,11 +90,6 @@ void addnote(){
 
     char* message = NULL;
     message = (char*) malloc (79);
-
-    if (!keyboardinit){
-        keyboardinit = true;
-        userAppInit();
-    }
 
     message = keyboard("Put in a note. Max 79 characters", 79);
 
